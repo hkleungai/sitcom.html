@@ -1,0 +1,20 @@
+{% set button_default_style = "text-white font-bold py-2 px-4 rounded" %}
+
+{% set loading_div_id = "loading-div" %}
+{% set error_div_id = "error-div" %}
+
+{% set error_text = "error !!" %}
+{% set loading_text = "Loading data..." %}
+
+{% set data_success_endpoint = "https://jsonplaceholder.typicode.com/todos" %}
+{% set data_failure_endpoint = "https://jsonplaceholder.typicode.com/failure" %}
+
+{% set data_userId_column_label = "user id" %}
+{% set data_id_column_label = "id" %}
+{% set data_title_column_label = "title" %}
+{% set data_completed_column_label = "completed" %}
+
+{% set show_error %}
+  htmx.toggleClass('#{{ loading_div_id }}', 'hidden'); 
+  htmx.toggleClass('#{{ error_div_id }}', 'hidden')
+{% endset %}
