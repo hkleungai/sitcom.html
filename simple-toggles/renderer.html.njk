@@ -3,16 +3,16 @@
   
   <div
     class="flex flex-row gap-2 p-2 items-center"
-    hx-trigger="click"
-    hx-get="../_.json"
     hx-ext="client-side-templates"
-    hx-swap="outerHTML"
-    hx-target="this"
     nunjucks-template="{{ props.id }}__toggle_{{ not props.state }}"
+    hx-target="this"
   >
   
     <div class="relative">
       <div 
+        hx-trigger="click"
+        hx-get="../_.json"
+        hx-swap="outerHTML"
         class="
           w-{{10 * size}} 
           h-{{6 * size}} 
@@ -36,8 +36,8 @@
       </div>
     </div>
 
-    <div class="text-xl flex flex-col">
-      <div>state: {{ "on" if props.state else "off" }}</div>
+    <div class="text-xl flex flex-row gap-4">
+      <div>state: {{ "on" if props.state else "off" }},</div>
       <div>id: {{ props.id }}</div>
     </div>
     
