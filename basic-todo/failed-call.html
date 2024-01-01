@@ -23,11 +23,11 @@
       hx-swap="outerHTML"
       hx-target="this"
       hx-trigger="load"
-      nunjucks-template="common"
+      nunjucks-template="main"
     >
     </div>
 
-    <script id="common" type="text/html">
+    <script id="main" type="text/html">
       {% from "call_todo.html.njk" import render_call_todo %}
       {% from "common.html.njk"    import data_failure_endpoint  %}
       {{ render_call_todo(data_failure_endpoint) }}
