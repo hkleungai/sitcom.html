@@ -1,10 +1,20 @@
-{% macro render_single_state_toggle(props) %}
+{% macro render_toggle(props) %}
+  {{ _render_single_state_toggle({ "id": props.id, "state": props.state }) | trim }}
+
+  {% for state in [true, false] %}
+    <script id="{{ _make_script_id({ 'id': props.id, 'state': state }) }}" type="text/html">
+      {{ _render_single_state_toggle({ "id": props.id, "state": state }) | trim }}
+    </script>
+  {% endfor %}
+{% endmacro %}
+
+{% macro _render_single_state_toggle(props) %}
   {% set size = 2 %}
-  
+
   <div
     class="flex flex-row gap-2 p-2 items-center"
     hx-ext="client-side-templates"
-    nunjucks-template="{{ props.id }}__toggle_{{ not props.state }}"
+    nunjucks-template="{{ _make_script_id({ 'id': props.id, 'state': not props.state }) }}"
     hx-target="this"
   >
   
@@ -21,7 +31,6 @@
           cursor-pointer
           after:content-[''] 
           after:absolute 
-          after:top-[{{2 * size}}px] 
           after:top-[{{2 * size}}px] 
           after:bg-white 
           after:border-{{ 'white' if props.state else 'gray-300' }} 
@@ -44,14 +53,6 @@
   </div>
 {% endmacro %}
 
-{% macro render_toggle(props) %}
-  {{ render_single_state_toggle({ "id": props.id, "state": true }) }}
-
-  <script id="{{ props.id }}__toggle_false" type="text/html">
-    {{ render_single_state_toggle({ "id": props.id, "state": false }) }}
-  </script>
-
-  <script id="{{ props.id }}__toggle_true" type="text/html">
-    {{ render_single_state_toggle({ "id": props.id, "state": true }) }}
-  </script>
-{% endmacro %}
+{% macro _make_script_id(props) -%}
+  {{ props | dump | urlencode | replace('%', '_') }}
+{%- endmacro %}

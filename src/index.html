@@ -11,14 +11,14 @@
   </head>
 
   <body 
-    class="flex flex-col gap-3 px-4 py-4 bg-white dark:bg-black"
+    class="flex flex-col gap-3 px-6 py-4 bg-white dark:bg-black"
     hx-get="_.json"
     hx-ext="client-side-templates"
     hx-target="this"
     hx-trigger="load"
-    nunjucks-template="common"
+    nunjucks-template="main"
   >
-    <script id="common" type="text/html">
+    <script id="main" type="text/html">
       {% extends "main.html.njk" %}
     </script>
   </body>
