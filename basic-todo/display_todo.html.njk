@@ -19,16 +19,16 @@
   </thead>
   <tbody>
     {% for row in data %}
-    <tr>
-      {% for cell in [
-        row.userId,
-        row.id,
-        row.title,
-        row.completed
-      ]%}      
-        <td class="w-25">{{ cell }}</td>
-      {% endfor %}
-    </tr>
+      <tr>
+        {% for cell in [
+          row.userId,
+          row.id,
+          row.title,
+          row.completed
+        ]%}      
+          <td class="w-25">{{ cell }}</td>
+        {% endfor %}
+      </tr>
     {% endfor %}
   </tbody>
 </table>

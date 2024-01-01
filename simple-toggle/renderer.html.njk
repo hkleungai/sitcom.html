@@ -1,0 +1,43 @@
+{% macro render_toggle(state) %}
+  {% set size = 2 %}
+  
+  <div
+    class="flex flex-row gap-2 p-2"
+    hx-trigger="click"
+    hx-get="../_.json"
+    hx-ext="client-side-templates"
+    hx-swap="outerHTML"
+    hx-target="this"
+    nunjucks-template="toggle_{{ not state }}"
+  >
+    <div class="relative">
+      <div 
+        class="
+          w-{{10 * size}} 
+          h-{{6 * size}} 
+          bg-{{ 'blue-600' if state else 'gray-200' }} 
+          rounded-full 
+          cursor-pointer
+          after:content-[''] 
+          after:absolute 
+          after:top-[{{2 * size}}px] 
+          after:top-[{{2 * size}}px] 
+          after:bg-white 
+          after:border-{{ 'white' if state else 'gray-300' }} 
+          after:border 
+          after:rounded-full 
+          after:h-{{5 * size}} 
+          after:w-{{5 * size}} 
+          after:transition-all 
+          {{ 'after:translate-x-full' if state }} 
+        "
+      >
+      </div>
+    </div>
+
+    <div class="text-4xl text-center">
+      {{ "on" if state else "off" }}
+    </div>
+    
+  </div>
+{% endmacro %}

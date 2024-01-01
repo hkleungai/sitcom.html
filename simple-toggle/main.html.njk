@@ -1,0 +1,10 @@
+{% from "renderer.html.njk" import render_toggle %}
+{{ render_toggle(true) }}
+
+<script id="toggle_false" type="text/html">
+  {{ render_toggle(false) }}
+</script>
+
+<script id="toggle_true" type="text/html">
+  {{ render_toggle(true) }}
+</script>
