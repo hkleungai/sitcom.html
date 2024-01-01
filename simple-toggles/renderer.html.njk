@@ -1,0 +1,56 @@
+{% macro render_single_state_toggle(props) %}
+  {% set size = 2 %}
+  
+  <div
+    class="flex flex-row gap-2 p-2 items-center"
+    hx-trigger="click"
+    hx-get="../_.json"
+    hx-ext="client-side-templates"
+    hx-swap="outerHTML"
+    hx-target="this"
+    nunjucks-template="{{ props.id }}__toggle_{{ not props.state }}"
+  >
+    <div class="relative">
+      <div 
+        class="
+          w-{{10 * size}} 
+          h-{{6 * size}} 
+          bg-{{ 'blue-600' if props.state else 'gray-200' }} 
+          rounded-full 
+          cursor-pointer
+          after:content-[''] 
+          after:absolute 
+          after:top-[{{2 * size}}px] 
+          after:top-[{{2 * size}}px] 
+          after:bg-white 
+          after:border-{{ 'white' if props.state else 'gray-300' }} 
+          after:border 
+          after:rounded-full 
+          after:h-{{5 * size}} 
+          after:w-{{5 * size}} 
+          after:transition-all 
+          {{ 'after:translate-x-full' if props.state }} 
+        "
+      >
+      </div>
+    </div>
+
+    <div class="text-xl flex flex-col">
+      <div>state: {{ "on" if props.state else "off" }}</div>
+      <div>id: {{ props.id }}</div>
+    </div>
+    
+  </div>
+{% endmacro %}
+
+{% macro render_toggle(props) %}
+  {{ render_single_state_toggle({ "id": props.id, "state": true }) }}
+
+  <script id="{{ props.id }}__toggle_false" type="text/html">
+    {{ render_single_state_toggle({ "id": props.id, "state": false }) }}
+  </script>
+
+  <script id="{{ props.id }}__toggle_true" type="text/html">
+    {{ render_single_state_toggle({ "id": props.id, "state": true }) }}
+  </script>
+{% endmacro %}

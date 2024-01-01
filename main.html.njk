@@ -28,24 +28,29 @@
           , "url": "./basic-todo/success-call.html"
         }
       , {
-            "label": "A Simple Toggle"
-          , "description": "Implement a simple toggle. Sharing on/off state between html element and css class via nunjucks. State switch is achieved by htmx ajax request"
-          , "url": "./simple-toggle"
+            "label": "Simple Toggles"
+          , "description": "Implement simple toggles. Sharing on/off state between html element and css class via nunjucks. State switch is achieved by htmx ajax request. Rendering is differentiated by id attribute."
+          , "url": "./simple-toggles"
       }
     ] %}
       <div class="flex flex-col pb-3">
         <dt 
           class="
-            text-blue-600 
-            dark:text-blue-500 
+            text-violet-600 
+            dark:text-violet-500 
             hover:underline 
             mb-1 
-            md:text-lg
           "
         >
-          <a href="{{ page.url }}">{{ page.label }}</a>
+          <a
+            class="flex flex-row gap-2 items-center"
+            href="{{ page.url }}"
+          >
+            {{ page.label }}
+            <div class="h-0 w-0 border-y-[6px] border-y-transparent border-l-[12px] border-l-violet-600"></div>
+          </a>
         </dt>
-        <dd class="text-lg font-semibold">
+        <dd class="font-semibold">
           {{ page.description }}
         </dd>
       </div>
