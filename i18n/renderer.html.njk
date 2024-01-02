@@ -33,10 +33,12 @@
             hx-ext="client-side-templates"
             hx-get="../_.json"
             nunjucks-template="{{ _make_script_id({ 'selected': item.id }) }}"
-            hx-swap="outerHTML"      
+            hx-swap="outerHTML"
+            id="{{ item.id }}"
           >
           <label
-            class="ms-2 text-sm font-medium text-gray-900"
+            class="ms-2 text-sm font-medium text-gray-900 cursor-pointer"
+            for="{{ item.id }}"
           >   
             {{ item.label }}
           </label>
