@@ -1,0 +1,64 @@
+{% macro render_main(props) %}
+  <main hx-target="this" class="p-4 flex flex-col gap-3">
+    {{ _render_single_locale_radio({ "items": props.radio_items, "selected": props.selected }) | trim }}
+    {{ _render_single_locale_paragraphs({ "items": props.paragraph_items, "selected": props.selected }) | trim }}
+  </main>
+
+  {% for id, _ in props.radio_items | groupby('id') %}
+      {% set script_id = _make_script_id({ 'selected': id }) %}
+      <script id="{{ script_id }}" type="text/html">
+        <main hx-target="this" class="p-4 flex flex-col gap-3">
+          {{ _render_single_locale_radio({ "items": props.radio_items, "selected": id }) | trim }}
+          {{ _render_single_locale_paragraphs({ "items": props.paragraph_items, "selected": id }) | trim }}
+        </main>
+      </script>
+  {% endfor %}
+{% endmacro %}
+
+{% macro _render_single_locale_radio(props) %}
+  <div 
+    class="flex gap-2 flex-row justify-end"
+  >
+    {% for item in props.items %}
+      <div class="flex items-center flex-row">
+          <input
+            {% if (item.id == props.selected) %}
+              checked
+            {% endif %}
+            type="radio" 
+            value=""
+            name="default-radio" 
+            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 cursor-pointer"
+            hx-trigger="click"
+            hx-ext="client-side-templates"
+            hx-get="../_.json"
+            nunjucks-template="{{ _make_script_id({ 'selected': item.id }) }}"
+            hx-swap="outerHTML"
+            id="{{ item.id }}"
+          >
+          <label
+            class="ms-2 text-sm font-medium text-gray-900 cursor-pointer"
+            for="{{ item.id }}"
+          >   
+            {{ item.label }}
+          </label>
+      </div>
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{% macro _render_single_locale_paragraphs(props) %}
+  <div class="flex gap-3 flex-col text-xl">
+    {% for item in props.items %}                        
+      {% if (item.id == props.selected) %}
+        {% for text in item.texts %}
+          <p>{{ text }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  </div>  
+{% endmacro %}
+
+{% macro _make_script_id(props) -%}
+  {{ props | dump | urlencode | replace('%', '_') }}
+{%- endmacro %}
