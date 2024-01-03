@@ -1,20 +1,23 @@
-{% macro render_toggle(props) %}
-  {{ _render_single_state_toggle({ "id": props.id, "state": props.state }) | trim }}
+{% macro mount_toggle(props) %}
+  {{ _render_toggle(props) | trim }}
 
   {% for state in [true, false] %}
     <script id="{{ _make_script_id({ 'id': props.id, 'state': state }) }}" type="text/html">
-      {{ _render_single_state_toggle({ "id": props.id, "state": state }) | trim }}
+      {{ _render_toggle(props, { "state": state }) | trim }}
     </script>
   {% endfor %}
 {% endmacro %}
 
-{% macro _render_single_state_toggle(props) %}
+{% macro _render_toggle(props, update) %}
+  {% set id = update.id or props.id %}
+  {% set state = update.state or props.state %}
+
   {% set size = 2 %}
 
   <div
     class="flex flex-row gap-2 p-2 items-center"
     hx-ext="client-side-templates"
-    nunjucks-template="{{ _make_script_id({ 'id': props.id, 'state': not props.state }) }}"
+    nunjucks-template="{{ _make_script_id({ 'id': id, 'state': not state }) }}"
     hx-target="this"
   >
   
@@ -24,30 +27,23 @@
         hx-get="../_.json"
         hx-swap="outerHTML"
         class="
-          w-{{10 * size}} 
-          h-{{6 * size}} 
-          bg-{{ 'blue-600' if props.state else 'gray-200' }} 
-          rounded-full 
+          w-{{10 * size}} h-{{6 * size}} 
+          after:top-[{{2 * size}}px] after:h-{{5 * size}} after:w-{{5 * size}} 
+          bg-{{ 'blue-600' if state else 'gray-200' }} after:bg-white
+          rounded-full after:rounded-full 
+          after:border after:border-{{ 'white' if state else 'gray-300' }}
+          after:transition-all {{ 'after:translate-x-full' if state }} 
           cursor-pointer
           after:content-[''] 
-          after:absolute 
-          after:top-[{{2 * size}}px] 
-          after:bg-white 
-          after:border-{{ 'white' if props.state else 'gray-300' }} 
-          after:border 
-          after:rounded-full 
-          after:h-{{5 * size}} 
-          after:w-{{5 * size}} 
-          after:transition-all 
-          {{ 'after:translate-x-full' if props.state }} 
+          after:absolute
         "
       >
       </div>
     </div>
 
     <div class="text-xl flex flex-row gap-4">
-      <div>state: {{ "on" if props.state else "off" }},</div>
-      <div>id: {{ props.id }}</div>
+      <div>state: {{ "on" if state else "off" }},</div>
+      <div>id: {{ id }}</div>
     </div>
     
   </div>

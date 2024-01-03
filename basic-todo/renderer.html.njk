@@ -1,0 +1,66 @@
+{% import "common.html.njk" as common %}
+
+{% macro mount_todo(props) %}
+  <main
+    class="w-screen h-screen flex justify-center items-center"
+    hx-get="{{ props.endpoint }}"
+    hx-ext="client-side-templates"
+    hx-swap="outerHTML"
+    hx-target="this"
+    hx-trigger="load delay:500ms"
+    nunjucks-array-template="{{ common.todo_template_id }}"
+    hx-on:htmx:response-error="{{ common.show_error }}"
+    hx-on:htmx:send-error="{{ common.show_error }}"    
+  >
+    <div 
+      class="{{ common.button_default_style }} hidden uppercase bg-red-800" 
+      id="{{ common.error_div_id }}"
+    >
+      {{ common.error_text }}
+    </div>
+
+    <div
+      class="{{ common.button_default_style }} bg-yellow-500"
+      id="{{ common.loading_div_id }}"
+    >
+      {{ common.loading_text }}
+    </div>
+  </main>  
+
+  <script id="{{ common.todo_template_id }}" type="text/plain">
+    <h3 class="{{ common.button_default_style }} bg-green-800 text-center">
+      {% raw %}{{ data.length }}{% endraw %} items are fetched
+    </h3>
+
+    <table class="table table-active table-bordered table-hover" id="content">
+      <thead>
+        <tr class="uppercase">
+          {% for label in [
+              common.data_userId_column_label
+            , common.data_id_column_label
+            , common.data_title_column_label
+            , common.data_completed_column_label
+          ] %}
+            <th>{{ label }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% raw %}
+          {% for row in data %}
+            <tr>
+              {% for cell in [
+                  row.userId
+                , row.id
+                , row.title
+                , row.completed
+              ]%}      
+                <td class="w-25">{{ cell }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        {% endraw %}
+      </tbody>
+    </table>
+  </script>
+{% endmacro %}

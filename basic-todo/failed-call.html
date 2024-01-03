@@ -28,13 +28,9 @@
     </div>
 
     <script id="main" type="text/html">
-      {% from "call_todo.html.njk" import render_call_todo %}
+      {% from "renderer.html.njk" import mount_todo %}
       {% from "common.html.njk"    import data_failure_endpoint  %}
-      {{ render_call_todo(data_failure_endpoint) }}
-    </script>
-
-    <script id="todo" type="text/html">
-      {% extends "display_todo.html.njk" %}    
+      {{ mount_todo({ "endpoint": data_failure_endpoint }) }}
     </script>
   </body>
 </html>
