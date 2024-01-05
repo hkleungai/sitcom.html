@@ -1,0 +1,60 @@
+{% macro render_toggle(props, update) %}
+  {% set id = update.id or props.id %}
+  {% set state = update.state or props.state %}
+  {% set bool_state = state % 2 %}
+  {% set updated_state = state + 1 %}
+
+  {% set size = 2 %}
+
+  <div
+    class="flex flex-row gap-2 p-2 items-center"
+    hx-ext="client-side-templates"
+    nunjucks-template="{{ _make_script_id({ 'id': id, 'state': updated_state }) }}"
+    hx-swap="outerHTML"
+    hx-target="this"
+  >
+
+    <div class="relative">
+      <div 
+        hx-trigger="click"
+        hx-get="../_.json"
+        hx-swap="outerHTML"
+        class="
+          w-{{10 * size}} h-{{6 * size}} 
+          after:top-[{{2 * size}}px] after:h-{{5 * size}} after:w-{{5 * size}} 
+          bg-{{ 'blue-600' if bool_state else 'gray-200' }} after:bg-white
+          rounded-full after:rounded-full 
+          after:border after:border-{{ 'white' if bool_state else 'gray-300' }}
+          after:transition-all {{ 'after:translate-x-full' if bool_state }} 
+          cursor-pointer
+          after:content-[''] 
+          after:absolute
+        "
+      >
+      </div>
+    </div>
+
+    <div class="text-xl flex flex-row gap-4">
+      <div>state: {{ state }},</div>
+      <div>id: {{ id }}</div>
+    </div>
+    
+  </div>
+
+  <script id="{{ _make_script_id({ 'id': props.id, 'state': updated_state }) }}" type="text/html">
+    {% raw %}
+      {% from "renderer.html.njk" import render_toggle %}
+      {{ render_toggle(
+    {% endraw %}
+        {{ props | dump | safe }}{{", {"}}
+          {% raw %} "state": {% endraw %}{{ updated_state }}
+        {{ "}" }}
+    {% raw %}
+      ) | safe | trim }}
+    {% endraw %}
+  </script>
+{% endmacro %}
+
+{% macro _make_script_id(props) -%}
+  {{ props | dump | urlencode | replace('%', '_') }}
+{%- endmacro %}
