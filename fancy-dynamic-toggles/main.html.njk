@@ -2,6 +2,6 @@
 
 <main class="p-2 flex flex-column gap-2">
   {% for id in ["t1", "t2", "t3", "t4"] %}
-    {{ render_toggle({ "id": id, "state": false }) }}
+    {{ render_toggle({ "id": id, "state": 0 }) }}
   {% endfor %}
 </main>

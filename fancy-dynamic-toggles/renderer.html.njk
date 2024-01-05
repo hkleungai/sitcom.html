@@ -1,14 +1,15 @@
 {% macro render_toggle(props, update) %}
   {% set id = update.id or props.id %}
   {% set state = update.state or props.state %}
-  {% set bool_state = (state + 0) % 2 %}
+  {% set bool_state = state % 2 %}
+  {% set updated_state = state + 1 %}
 
   {% set size = 2 %}
 
   <div
     class="flex flex-row gap-2 p-2 items-center"
     hx-ext="client-side-templates"
-    nunjucks-template="{{ _make_script_id({ 'id': id, 'state': state + 1 }) }}"
+    nunjucks-template="{{ _make_script_id({ 'id': id, 'state': updated_state }) }}"
     hx-swap="outerHTML"
     hx-target="this"
   >
@@ -34,23 +35,24 @@
     </div>
 
     <div class="text-xl flex flex-row gap-4">
-      <div>state: {{ 0 + state }},</div>
+      <div>state: {{ state }},</div>
       <div>id: {{ id }}</div>
     </div>
     
-    <script id="{{ _make_script_id({ 'id': props.id, 'state': state + 1 }) }}" type="text/html">
-      {% raw %}
-        {% from "renderer.html.njk" import render_toggle %}
-      {% endraw %}
-      {% set raw_quote = "\"" | safe %}
-      {{ "{{ render_toggle(" }}
-        {{ props | dump | safe }}{{", { "}}
-          {{ raw_quote }}{{ "state" }}{{ raw_quote }}{{ ": " + (state + 1) }}
-        {{"}"}}
-      {{") | trim }}" | safe | trim }}
-    </script>
   </div>
 
+  <script id="{{ _make_script_id({ 'id': props.id, 'state': updated_state }) }}" type="text/html">
+    {% raw %}
+      {% from "renderer.html.njk" import render_toggle %}
+      {{ render_toggle(
+    {% endraw %}
+        {{ props | dump | safe }}{{", {"}}
+          {% raw %} "state": {% endraw %}{{ updated_state }}
+        {{ "}" }}
+    {% raw %}
+      ) | safe | trim }}
+    {% endraw %}
+  </script>
 {% endmacro %}
 
 {% macro _make_script_id(props) -%}
