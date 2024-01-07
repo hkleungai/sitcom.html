@@ -1,0 +1,69 @@
+{% import "common.html.njk" as common %}
+
+{% macro render_intro_content(props) %}    
+    <h1 class="flex justify-center pb-4 text-2xl italic">
+        Expressively write interactive HTML with ajax.
+    </h1>
+    <section class="flex flex-col gap-2">
+        <h2 class="text-xl font-bold">
+            What is {{ common.APP_NAME }}?
+        </h2>
+        <article class="indent-[2rem] text-lg">
+            {{ common.APP_NAME }} is an approach to make client-side web application.
+        </article>
+        <article class="text-lg">
+            <ul class="pl-[3.5rem] flex flex-col gap-1 list-decimal">
+                {% for term, item in _core_term_descriptions %}
+                    <li>
+                        {{ _make_capital_case(term) 
+                            if item.should_make_capital_case_on_label
+                            else _make_title_case(term) 
+                        }}: {{ item.description | safe }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </article>
+    </section>
+{% endmacro %}
+
+{% macro _make_capital_case(str) -%}
+    <p 
+        class="
+{##}{##}    inline
+{##}{##}    font-bold uppercase text-xl
+{##}{##}"
+    >{{ str }}</p>    
+{%- endmacro %}
+
+{% macro _make_title_case(str, classes) -%}
+    {% set has_handled_first_char = false %}
+    {% for c in str -%}
+        {%- if has_handled_first_char -%}
+            {{ c | trim }}
+        {%- else -%}
+            {{ _make_capital_case(c) }}
+        {%- endif -%}
+        {% set has_handled_first_char = true %}
+    {%- endfor %}
+{%- endmacro%}
+
+{% set _core_term_descriptions = {
+        "simplistic": {
+                "description": "No crazy tech burden. You need only a few concept to kickstart."
+        }
+    ,   "integrated": {
+                "description": "Integrate all integrated into a single file."
+        }
+    ,   "templated": {
+                "description": "Html with nunjucks template gives out a JSX-like experience."
+        }
+    ,   "componentized": {
+                "description": "Write and reuse your own component files.."
+        }
+    ,   "oriented": {
+                "description": "Data flows from parent to children, like react.js."
+        }
+    ,   "makeless": {
+                "description": "No config. No build step. Just write html template and deploy!!"
+        }
+} %}

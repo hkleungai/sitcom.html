@@ -1,0 +1,16 @@
+{% import "common.html.njk" as common %}
+{% from "intro-content.renderer.html.njk" import render_intro_content %}
+
+{% macro render_page_content(props, update) %}
+    {% set page = update.page or props.page %}
+
+    {% for id, _ in common.PAGE.labels %}   
+        {% if (id == page) %}
+            {% if id == "intro" %}
+                {{ render_intro_content(props) }}
+            {% else %}
+                Just show me where I am. Page? `{{ id }}`
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}

@@ -1,0 +1,16 @@
+{% set APP_NAME = "SITCOM.html" %}
+
+{% 
+    set PAGE = {
+            "labels": {
+                    "intro": "Introduction"
+                ,   "guide": "Guide"
+                ,   "example": "Example"
+                ,   "github": "Github"
+            }
+    }
+%}
+
+{% macro make_script_id(props) -%}
+    {{ props | dump | urlencode | replace('%', '_') }}
+{%- endmacro %}
