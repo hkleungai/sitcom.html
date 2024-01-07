@@ -4,19 +4,19 @@
     {{ _render_main(props, {}) }}
 
     {% for id, _ in common.MESSAGES %}
-        <script id="{{ _make_script_id({ 'selected': id }) }}" type="text/html">
-            {{ _render_main(props, { 'selected': id }) }}
+        <script id="{{ _make_script_id({ 'locale': id }) }}" type="text/html">
+            {{ _render_main(props, { 'locale': id }) }}
         </script>
     {% endfor %}
 {% endmacro %}
 
 {% macro _render_main(props, update) %}
     {% set MESSAGES = common.MESSAGES %}
-    {% set selected = update.selected or props.selected %}
+    {% set locale = update.locale or props.locale %}
 
     <main hx-target="this" class="p-4 flex flex-col gap-3">
-        {{ _render_radio({ "MESSAGES": MESSAGES, "selected": selected }) | trim }}
-        {{ _render_paragraphs({ "MESSAGES": MESSAGES, "selected": selected }) | trim }}
+        {{ _render_radio({ "MESSAGES": MESSAGES, "locale": locale }) | trim }}
+        {{ _render_paragraphs({ "MESSAGES": MESSAGES, "locale": locale }) | trim }}
     </main>  
 {% endmacro %}
 
@@ -26,7 +26,7 @@
             {% if id != '_' %}
                 <div class="flex items-center flex-row">
                     <input
-                        {% if (id == props.selected) %}
+                        {% if (id == props.locale) %}
                             checked
                         {% endif %}
                         type="radio" 
@@ -41,7 +41,7 @@
                         hx-trigger="click"
                         hx-ext="client-side-templates"
                         hx-get="../_.json"
-                        nunjucks-template="{{ _make_script_id({ 'selected': id }) }}"
+                        nunjucks-template="{{ _make_script_id({ 'locale': id }) }}"
                         hx-swap="outerHTML"
                         id="{{ id }}"
                     >
@@ -60,7 +60,7 @@
 {% macro _render_paragraphs(props) %}
     <div class="flex gap-3 flex-col text-xl">
         {% for id, _ in common.MESSAGES %}   
-            {% if (id == props.selected) %}
+            {% if (id == props.locale) %}
                 {% for i in range(common.PARAGRAPH_COUNT) %}
                     <p>{{ common.MESSAGES[id]["paragraph.text." + i] }}</p>
                 {% endfor %}
