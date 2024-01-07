@@ -1,74 +1,74 @@
 {% import "common.html.njk" as common %}
   
 {% macro mount_main(props) %}
-  {{ _render_main(props, {}) }}
+    {{ _render_main(props, {}) }}
 
-  {% for id, _ in common.MESSAGES %}
-      <script id="{{ _make_script_id({ 'selected': id }) }}" type="text/html">
-        {{ _render_main(props, { 'selected': id }) }}
-      </script>
-  {% endfor %}
+    {% for id, _ in common.MESSAGES %}
+        <script id="{{ _make_script_id({ 'selected': id }) }}" type="text/html">
+            {{ _render_main(props, { 'selected': id }) }}
+        </script>
+    {% endfor %}
 {% endmacro %}
 
 {% macro _render_main(props, update) %}
-  {% set MESSAGES = common.MESSAGES %}
-  {% set selected = update.selected or props.selected %}
+    {% set MESSAGES = common.MESSAGES %}
+    {% set selected = update.selected or props.selected %}
 
-  <main hx-target="this" class="p-4 flex flex-col gap-3">
-    {{ _render_radio({ "MESSAGES": MESSAGES, "selected": selected }) | trim }}
-    {{ _render_paragraphs({ "MESSAGES": MESSAGES, "selected": selected }) | trim }}
-  </main>  
+    <main hx-target="this" class="p-4 flex flex-col gap-3">
+        {{ _render_radio({ "MESSAGES": MESSAGES, "selected": selected }) | trim }}
+        {{ _render_paragraphs({ "MESSAGES": MESSAGES, "selected": selected }) | trim }}
+    </main>  
 {% endmacro %}
 
 {% macro _render_radio(props) %}
-  <div class="flex gap-2 flex-row justify-end">
-    {% for id, _ in common.MESSAGES %}
-      {% if id != '_' %}
-        <div class="flex items-center flex-row">
-            <input
-              {% if (id == props.selected) %}
-                checked
-              {% endif %}
-              type="radio" 
-              value=""
-              name="default-radio" 
-              class="
-                w-4 h-4
-                text-blue-600 bg-gray-100 border-gray-300 
-                dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 
-                cursor-pointer
-              "
-              hx-trigger="click"
-              hx-ext="client-side-templates"
-              hx-get="../_.json"
-              nunjucks-template="{{ _make_script_id({ 'selected': id }) }}"
-              hx-swap="outerHTML"
-              id="{{ id }}"
-            >
-            <label
-              class="ms-2 text-sm font-medium text-gray-900 cursor-pointer"
-              for="{{ id }}"
-            > 
-              {{ common.MESSAGES._["radio.label." + id] }}
-            </label>
-        </div>
-      {% endif %}
-    {% endfor %}
-  </div>
+    <div class="flex gap-2 flex-row justify-end">
+        {% for id, _ in common.MESSAGES %}
+            {% if id != '_' %}
+                <div class="flex items-center flex-row">
+                    <input
+                        {% if (id == props.selected) %}
+                            checked
+                        {% endif %}
+                        type="radio" 
+                        value=""
+                        name="default-radio" 
+                        class="
+                            w-4 h-4
+                            text-blue-600 bg-gray-100 border-gray-300
+                            dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600
+                            cursor-pointer
+                        "
+                        hx-trigger="click"
+                        hx-ext="client-side-templates"
+                        hx-get="../_.json"
+                        nunjucks-template="{{ _make_script_id({ 'selected': id }) }}"
+                        hx-swap="outerHTML"
+                        id="{{ id }}"
+                    >
+                    <label
+                        class="ms-2 text-sm font-medium text-gray-900 cursor-pointer"
+                        for="{{ id }}"
+                    > 
+                        {{ common.MESSAGES._["radio.label." + id] }}
+                    </label>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
 {% endmacro %}
 
 {% macro _render_paragraphs(props) %}
-  <div class="flex gap-3 flex-col text-xl">
-    {% for id, _ in common.MESSAGES %}            
-      {% if (id == props.selected) %}
-        {% for i in range(common.PARAGRAPH_COUNT) %}
-          <p>{{ common.MESSAGES[id]["paragraph.text." + i] }}</p>
+    <div class="flex gap-3 flex-col text-xl">
+        {% for id, _ in common.MESSAGES %}   
+            {% if (id == props.selected) %}
+                {% for i in range(common.PARAGRAPH_COUNT) %}
+                    <p>{{ common.MESSAGES[id]["paragraph.text." + i] }}</p>
+                {% endfor %}
+            {% endif %}
         {% endfor %}
-      {% endif %}
-    {% endfor %}
-  </div>  
+    </div>  
 {% endmacro %}
 
 {% macro _make_script_id(props) -%}
-  {{ props | dump | urlencode | replace('%', '_') }}
+    {{ props | dump | urlencode | replace('%', '_') }}
 {%- endmacro %}
