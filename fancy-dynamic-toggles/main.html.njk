@@ -1,7 +1,7 @@
 {% from "renderer.html.njk" import render_toggle %}
 
 <main class="p-2 flex flex-column gap-2">
-  {% for id in ["t1", "t2", "t3", "t4"] %}
-    {{ render_toggle({ "id": id, "state": 0 }) }}
-  {% endfor %}
+    {% for id in ["t1", "t2", "t3", "t4"] %}
+        {{ render_toggle({ "id": id, "state": 0 }) }}
+    {% endfor %}
 </main>

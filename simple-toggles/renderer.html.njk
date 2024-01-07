@@ -1,52 +1,52 @@
 {% macro mount_toggle(props) %}
-  {{ _render_toggle(props) | trim }}
+    {{ _render_toggle(props) | trim }}
 
-  {% for state in [true, false] %}
-    <script id="{{ _make_script_id({ 'id': props.id, 'state': state }) }}" type="text/html">
-      {{ _render_toggle(props, { "state": state }) | trim }}
-    </script>
-  {% endfor %}
+    {% for state in [true, false] %}
+        <script id="{{ _make_script_id({ 'id': props.id, 'state': state }) }}" type="text/html">
+            {{ _render_toggle(props, { "state": state }) | trim }}
+        </script>
+    {% endfor %}
 {% endmacro %}
 
 {% macro _render_toggle(props, update) %}
-  {% set id = update.id or props.id %}
-  {% set state = update.state or props.state %}
+    {% set id = update.id or props.id %}
+    {% set state = update.state or props.state %}
 
-  {% set size = 2 %}
+    {% set size = 2 %}
 
-  <div
-    class="flex flex-row gap-2 p-2 items-center"
-    hx-ext="client-side-templates"
-    nunjucks-template="{{ _make_script_id({ 'id': id, 'state': not state }) }}"
-    hx-target="this"
-  >
-  
-    <div class="relative">
-      <div 
-        hx-trigger="click"
-        hx-get="../_.json"
-        hx-swap="outerHTML"
-        class="
-          w-{{10 * size}} h-{{6 * size}} 
-          after:top-[{{2 * size}}px] after:h-{{5 * size}} after:w-{{5 * size}} 
-          bg-{{ 'blue-600' if state else 'gray-200' }} after:bg-white
-          rounded-full after:rounded-full 
-          after:border after:border-{{ 'white' if state else 'gray-300' }}
-          after:transition-all {{ 'after:translate-x-full' if state }} 
-          cursor-pointer
-          after:content-[''] 
-          after:absolute
-        "
-      >
-      </div>
-    </div>
-
-    <div class="text-xl flex flex-row gap-4">
-      <div>state: {{ "on" if state else "off" }},</div>
-      <div>id: {{ id }}</div>
-    </div>
+    <div
+        class="flex flex-row gap-2 p-2 items-center"
+        hx-ext="client-side-templates"
+        nunjucks-template="{{ _make_script_id({ 'id': id, 'state': not state }) }}"
+        hx-target="this"
+    >
     
-  </div>
+        <div class="relative">
+            <div 
+                hx-trigger="click"
+                hx-get="../_.json"
+                hx-swap="outerHTML"
+                class="
+                    w-{{10 * size}} h-{{6 * size}} 
+                    after:top-[{{2 * size}}px] after:h-{{5 * size}} after:w-{{5 * size}} 
+                    bg-{{ 'blue-600' if state else 'gray-200' }} after:bg-white
+                    rounded-full after:rounded-full 
+                    after:border after:border-{{ 'white' if state else 'gray-300' }}
+                    after:transition-all {{ 'after:translate-x-full' if state }} 
+                    cursor-pointer
+                    after:content-[''] 
+                    after:absolute
+                "
+            >
+            </div>
+        </div>
+
+        <div class="text-xl flex flex-row gap-4">
+            <div>state: {{ "on" if state else "off" }},</div>
+            <div>id: {{ id }}</div>
+        </div>
+        
+    </div>
 {% endmacro %}
 
 {% macro _make_script_id(props) -%}

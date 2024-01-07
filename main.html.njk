@@ -1,108 +1,114 @@
 <h1 
-  class="
-    mb-4 
-    text-3xl 
-    font-extrabold 
-    text-gray-900 
-    dark:text-white 
-    md:text-5xl 
-    lg:text-6xl
-  "
->
-  <span 
     class="
-      text-transparent 
-      bg-clip-text 
-      bg-gradient-to-r 
-      to-emerald-600 
-      from-sky-400
+        mb-4 
+        text-3xl 
+        font-extrabold 
+        text-gray-900 
+        dark:text-white 
+        md:text-5xl 
+        lg:text-6xl
     "
-  >
-    Index page
-  </span>
+>
+    <span 
+        class="
+        text-transparent 
+        bg-clip-text 
+        bg-gradient-to-r 
+        to-emerald-600 
+        from-sky-400
+        "
+    >
+        Index page
+    </span>
 </h1>
 
 <main data-bs-scheme="light">
-  <dl 
-    class="
-      max-w-md
-      dark:text-white 
-      dark:divide-gray-700 
-      text-gray-900 
-      divide-y 
-      divide-gray-200 
-      [&>*:not(:first-child)]:pt-3
-    "
-  >
-    {% for page in [
-        {
-            "label": "Ajax Error"
-          , "descriptions": ["Show an error with an invalid ajax request on mounting."]
-          , "url": "./basic-todo/failed-call.html"
-        }
-      , {
-            "label": "Basic Todo"
-          , "descriptions": ["Show a todo list with an ajax request on mounting."]
-          , "url": "./basic-todo/success-call.html"
-        }
-      , {
-            "label": "Simple Toggles"
-          , "descriptions": [
-                "Implement a group of simple toggles."
-              , "Sharing on/off state between html element and css class."
-              , "State switch is achieved by htmx ajax request."
-              , "Rendering of various switches is differentiated by \"id\"."
-            ]
-          , "url": "./simple-toggles"
-        }
-      , {
-            "label": "i18n, wait what?"
-          , "descriptions": [
-                "Implement three-options radio buttons as language switch; bye bye boolean toggle!"
-              , "Achieve \"state-syncing\" across components!!!"
-            ]
-          , "url": "./i18n"
-        }
-      , {
-            "label": "Fancy Dynamic Toggles, huhh??"
-          , "descriptions": [
-                "With UI from previous \"Simple Toggles\"."
-              , "Biggest breakthrough so far: Dynamism!!!"
-              , "i.e. No more state pre-enumeration! so excited!"
-              , "This thing actually has a chance to become usable!!!!"
-            ]
-          , "url": "./fancy-dynamic-toggles"
-        }
-
-    ] %}
-      <div class="flex flex-col pb-3 gap-1">
-        <dt class="text-violet-600 dark:text-violet-500hover:underline mb-1">
-          <a
-            class="flex flex-row gap-3 items-center text-lg"
-            href="{{ page.url }}"
-          >
-            {{ page.label }}
-            <div
-              class="
-                h-0 
-                w-0 
-                border-y-[6px] 
-                border-y-transparent 
-                border-l-[12px] 
-                border-l-violet-600
-              "
-            >
+    <dl 
+        class="
+            max-w-md
+            dark:text-white 
+            dark:divide-gray-700 
+            text-gray-900 
+            divide-y 
+            divide-gray-200 
+            [&>*:not(:first-child)]:pt-3
+        "
+    >
+        {% for page in [
+            {
+                    "label": "Index page (Version 2)"
+                ,   "descriptions": [
+                    "TBC"
+                ]
+                ,   "url": "./index-v2"
+            }
+        , {
+                    "label": "Ajax Error"
+                ,   "descriptions": ["Show an error with an invalid ajax request on mounting."]
+                ,   "url": "./basic-todo/failed-call.html"
+            }
+        , {
+                    "label": "Basic Todo"
+                ,   "descriptions": ["Show a todo list with an ajax request on mounting."]
+                ,   "url": "./basic-todo/success-call.html"
+            }
+        , {
+                    "label": "Simple Toggles"
+                ,   "descriptions": [
+                            "Implement a group of simple toggles."
+                        ,   "Sharing on/off state between html element and css class."
+                        ,   "State switch is achieved by htmx ajax request."
+                        ,   "Rendering of various switches is differentiated by \"id\"."
+                    ]
+                ,   "url": "./simple-toggles"
+            }
+        , {
+                    "label": "i18n, wait what?"
+                ,   "descriptions": [
+                            "Implement three-options radio buttons as language switch; bye bye boolean toggle!"
+                        ,   "Achieve \"state-syncing\" across components!!!"
+                    ]
+                ,   "url": "./i18n"
+            }
+        , {
+                    "label": "Fancy Dynamic Toggles, huhh??"
+                ,   "descriptions": [
+                            "With UI from previous \"Simple Toggles\"."
+                        ,   "Biggest breakthrough so far: Dynamism!!!"
+                        ,   "i.e. No more state pre-enumeration! so excited!"
+                        ,   "This thing actually has a chance to become usable!!!!"
+                    ]
+                ,   "url": "./fancy-dynamic-toggles"
+            }
+        ] %}
+            <div class="flex flex-col pb-3 gap-1">
+                <dt class="text-violet-600 dark:text-violet-500hover:underline mb-1">
+                    <a
+                        class="flex flex-row gap-3 items-center text-lg"
+                        href="{{ page.url }}"
+                    >
+                        {{ page.label }}
+                        <div
+                            class="
+                                h-0 
+                                w-0 
+                                border-y-[6px] 
+                                border-y-transparent 
+                                border-l-[12px] 
+                                border-l-violet-600
+                            "
+                        >
+                        </div>
+                    </a>
+                </dt>
+                <dd class="font-semibold">
+                    <ul class="list-none flex flex-col gap-1">
+                        {% for desc in page.descriptions %}
+                            <li>{{ desc }}</li>
+                        {% endfor %}
+                    </ul>
+                </dd>
             </div>
-          </a>
-        </dt>
-        <dd class="font-semibold">
-          <ul class="list-none flex flex-col gap-1">
-            {% for desc in page.descriptions %}
-              <li>{{ desc }}</li>
-            {% endfor %}
-          </ul>
-        </dd>
-      </div>
-    {% endfor %}
-  </dl>
+        {% endfor %}
+    </dl>
 </main>
