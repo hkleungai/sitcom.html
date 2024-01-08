@@ -1,16 +1,16 @@
 {% import "common.html.njk" as common %}
+{% from "nav-link.renderer.html.njk" import render_link %}
+
+{% set nav_link_id_prefix = "intro-content-nav-link-" %}
 
 {% macro render_intro_content(props) %}    
-    <h1 class="flex justify-center pb-4 text-2xl italic">
-        Expressively write interactive HTML with ajax.
+    <h1 class="flex justify-center pt-4 text-2xl italic">
+        <p>Write Expressive and Interactive Web App with Ajax.</p>
     </h1>
     <section class="flex flex-col gap-2">
         <h2 class="text-xl font-bold">
-            What is {{ common.APP_NAME }}?
+            What {{ common.APP_NAME }} is about?
         </h2>
-        <article class="indent-[2rem] text-lg">
-            {{ common.APP_NAME }} is an approach to make client-side web application.
-        </article>
         <article class="text-lg">
             <ul class="pl-[3.5rem] flex flex-col gap-1 list-decimal">
                 {% for term, item in _core_term_descriptions %}
@@ -24,6 +24,31 @@
             </ul>
         </article>
     </section>
+    <section class="flex flex-col gap-2">
+        <h2 class="text-xl font-bold">
+            What {{ common.APP_NAME }} is NOT?
+        </h2>
+        <article class="text-lg">
+            <ul class="pl-[3.5rem] flex flex-col gap-1 list-decimal">
+                {% for item in _not_descriptions %}
+                    <li>{{ _make_not_sentence(item | safe) }}</li>
+                {% endfor %}
+            </ul>
+        </article>
+    </section>
+    <section class="flex flex-col gap-2">
+        <h2 class="text-xl font-bold">
+            How do I start?
+        </h2>
+        <article class="text-lg indent-[2rem]">
+            Check the 
+                <p class="inline">{{ render_link(props, [nav_link_id_prefix, "guide"] | join("-"), "guide") }}</p>
+            or 
+                <p class="inline">{{ render_link(props, [nav_link_id_prefix, "example"] | join("-"), "example") }}</p>
+            for more information.
+        </article>
+    </section>
+        
 {% endmacro %}
 
 {% macro _make_capital_case(str) -%}
@@ -38,14 +63,14 @@
 {% macro _make_title_case(str, classes) -%}
     {% set has_handled_first_char = false %}
     {% for c in str -%}
-        {%- if has_handled_first_char -%}
-            {{ c | trim }}
-        {%- else -%}
-            {{ _make_capital_case(c) }}
-        {%- endif -%}
+        {{- c if has_handled_first_char else _make_capital_case(c) -}}
         {% set has_handled_first_char = true %}
     {%- endfor %}
 {%- endmacro%}
+
+{% macro _make_not_sentence(sentence) -%}
+    {{ _make_capital_case("not" )}} {{ sentence }}
+{%- endmacro %}
 
 {% set _core_term_descriptions = {
         "simplistic": {
@@ -67,3 +92,11 @@
                 "description": "No config. No build step. Just write html template and deploy!!"
         }
 } %}
+
+{% set _not_descriptions = [
+        "a framework. It is merely an approach on utilizing popular libraries to build sites."
+    ,   "a compiled language. What you write is what you will serve and see in your browser."
+    ,   "a server-reliant app. You need not set up your own API for running the app."
+    ,   "about javascript. Declarative and templated HTML document is all you need."
+    ,   "type-safe probably. All templates are interpreted in runtime."
+] %}

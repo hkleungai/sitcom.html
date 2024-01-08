@@ -1,0 +1,21 @@
+{% import "common.html.njk" as common %}
+{% from "nav-link.renderer.html.njk" import render_link %}
+
+{% set nav_link_id_prefix = "top-nav-group"%}
+
+{% macro render_page_nav(props, update) %}
+    {% set MESSAGES = common.PAGE %}
+    {% set page = update.page or props.page %}
+
+    <nav class="flex gap-6 flex-row justify-end">
+        {{ _render_radio({ "MESSAGES": MESSAGES, "page": page }) | trim }}
+    </nav>
+{% endmacro %}
+
+{% macro _render_radio(props) %}
+    {% for id, _ in common.PAGE.labels %}
+        <div class="flex items-center flex-row">
+            {{ render_link(props, [nav_link_id_prefix, id] | join("-"), id) }}
+        </div>
+    {% endfor %}
+{% endmacro %}

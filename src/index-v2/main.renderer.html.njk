@@ -1,12 +1,19 @@
 {% import "common.html.njk" as common %}
-{% from "page-nav.renderer.html.njk" import render_page_nav %}
+{% from "top-nav-group.renderer.html.njk" import render_page_nav %}
 {% from "page-content.renderer.html.njk" import render_page_content %}
   
 {% macro render_main(props, update) %}
     {% set page = update.page or props.page %}
 
     <div hx-target="this" hx-swap="outerHTML" class="flex flex-col gap-6">
-        <header tabindex="-1" class="flex justify-between w-full p-4 border-b border-purple-200">
+        <header 
+            tabindex="-1" 
+            class="
+{##}{##}{##}    flex justify-between gap-[4rem]
+{##}{##}{##}    overflow-x-scroll
+{##}{##}{##}    w-full p-4 border-b
+{##}{##}{##}    border-purple-200
+{##}{##}{##}">
             <h1
                 class="
                     text-3xl font-extrabold text-transparent bg-clip-text
@@ -19,7 +26,7 @@
                 {{ render_page_nav({ "page": page })}}
             </div>
         </header>
-        <main class="px-4 flex flex-col gap-2">
+        <main class="px-4 pb-4 flex flex-col gap-[3rem]">
             {{ render_page_content({ "page": page })}}
         </main>
     </div>
