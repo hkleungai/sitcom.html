@@ -1,0 +1,48 @@
+{% import "common.html.njk" as common %}
+
+{% macro render_link(props, link_id, page) %}
+    {% set script_id = common.make_script_id({ 'id': link_id, 'page': page }) %}
+
+    <input
+        {{ "checked" if (page == props.page) }}
+        {{ "disabled" if (page == props.page) }}
+        type="radio"
+        value=""
+        class="
+{##}{##}    w-4 h-4
+{##}{##}    text-blue-600 bg-gray-100 border-gray-300
+{##}{##}    dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600
+{##}{##}    {{ 'cursor-pointer' if (page != props.page) }}
+{##}{##}    hidden
+{##}{##}"
+        hx-trigger="click"
+        hx-ext="client-side-templates"
+        hx-get="../_.json"
+        nunjucks-template="{{ script_id }}"
+        id="{{ link_id }}"
+    >
+    </input>
+
+    <label
+        class="
+{##}{##}    text-lg text-orange-600 
+{##}{##}    {{ 'cursor-pointer' if (page != props.page) }}
+{##}{##}    {{ 'underline' if (page == props.page) }} hover:underline 
+{##}{##}"
+        for="{{ link_id }}"
+    >{{
+        common.PAGE.labels[page]
+}}</label>
+
+    <script id="{{ script_id }}" type="text/html">
+{##}{##}{% raw %}{% from "main.renderer.html.njk" import render_main %}{% endraw %}
+
+{##}{##}{{ "{% set props = " }}{{ props | dump(4) | safe }}{{ " %}" }}
+
+{##}{##}{{ "{% set update = {" }}
+{##}{##}    "page": "{{ page }}"
+{##}{##}{{ "} %}" }}
+
+{##}{##}{% raw %}{{ render_main(props, update) }}{% endraw %}
+    </script>
+{% endmacro %}
